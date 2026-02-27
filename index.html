@@ -597,13 +597,7 @@
             const totalItems = vendors.reduce((sum, vendor) => sum + vendor.foodItems.length, 0);
             resultsHeader.textContent = `Found ${totalItems} item${totalItems !== 1 ? 's' : ''} at ${vendors.length} vendor${vendors.length !== 1 ? 's' : ''}`;
 
-            resultsContainer.innerHTML = vendors.map(vendor => {
-                // Sort food items alphabetically
-                const sortedItems = [...vendor.foodItems].sort((a, b) => 
-                    a.name.localeCompare(b.name, undefined, {sensitivity: 'base'})
-                );
-                
-                return `
+            resultsContainer.innerHTML = vendors.map(vendor => `
                 <div class="location-card">
                     <div class="location-header">
                         <div class="location-name">${vendor.vendorName}</div>
@@ -615,15 +609,14 @@
                         </div>
                     </div>
                     <div class="menu-items">
-                        ${sortedItems.map(item => `
+                        ${vendor.foodItems.map(item => `
                             <div class="menu-item">
                                 <div class="item-name">${highlightSearch(item.name, searchTerm)}</div>
                             </div>
                         `).join('')}
                     </div>
                 </div>
-                `;
-            }).join('');
+            `).join('');
         }
 
         function highlightSearch(text, searchTerm) {
